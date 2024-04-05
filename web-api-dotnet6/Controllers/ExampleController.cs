@@ -85,7 +85,7 @@ namespace web_api_dotnet6.Controllers
 
         //Ex3
 
-        [HttpGet("{name}")]
+        [HttpGet("Ex3/{name}")]
         public async Task<IActionResult> GetEx3(string name)
         {
             var result = new Response();
