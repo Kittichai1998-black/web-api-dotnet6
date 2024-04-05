@@ -45,7 +45,7 @@ namespace web_api_dotnet6.Controllers
         }
 
         //Ex2.1
-        [HttpPost("Ex2.1")]
+        [HttpPost("Postfucion1")]
         public IActionResult Postfucion1([FromBody] InputData data)
         {
             // แยกค่าที่เป็นตัวเลขออกมาเป็นอาร์เรย์
@@ -63,7 +63,7 @@ namespace web_api_dotnet6.Controllers
         }
 
         //Ex2.2
-        [HttpPost("Ex2.2")]
+        [HttpPost("Postfucion2")]
         public IActionResult Postfucion2([FromBody] InputData data)
         {
             // แยกข้อมูลเป็นอาร์เรย์ของตัวเลขและอักขระ
