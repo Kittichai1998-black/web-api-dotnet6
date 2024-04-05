@@ -20,7 +20,7 @@ namespace web_api_dotnet6.Controllers
 
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("/")]
     public class ExampleController : Controller
     {
         //private readonly ApiContext _apiContext;
