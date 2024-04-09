@@ -38,14 +38,14 @@ namespace web_api_dotnet6.Controllers
 
         //Ex1
         //Getbooks
-        [HttpGet("Ex1")]
+        [HttpGet("GetEx1")]
         public ActionResult<List<Author>> GetEx1()
         {
             return Ok(_authorRepository.GetAuthors());
         }
 
         //Ex2.1
-        [HttpPost("Postfucion1")]
+        [HttpPost("Postfunction1")]
         public IActionResult Postfucion1([FromBody] InputData data)
         {
             // แยกค่าที่เป็นตัวเลขออกมาเป็นอาร์เรย์
@@ -58,12 +58,11 @@ namespace web_api_dotnet6.Controllers
                                    .OrderBy(x => x) // เรียงลำดับค่า
                                    .Select(x => new { rank = x }); 
 
-            // ส่งผลลัพธ์ที่เป็น JSON array
             return Ok(duplicates);
         }
 
         //Ex2.2
-        [HttpPost("Postfucion2")]
+        [HttpPost("Postfunction2")]
         public IActionResult Postfucion2([FromBody] InputData data)
         {
             // แยกข้อมูลเป็นอาร์เรย์ของตัวเลขและอักขระ
@@ -79,13 +78,12 @@ namespace web_api_dotnet6.Controllers
                                           .Select(group => new { rank = group.Key });
 
 
-            // ส่งข้อมูลที่ซ้ำกันและเรียงลำดับกลับไป
             return Ok(duplicates);
         }
 
         //Ex3
 
-        [HttpGet("Ex3")]
+        [HttpGet("GetFreeAPI")]
         public async Task<IActionResult> GetEx3(string name)
         {
             var result = new Response();
