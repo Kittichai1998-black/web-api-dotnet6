@@ -10,6 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using web_api_dotnet6.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace web_api_dotnet6.Controllers
 {
@@ -18,9 +23,9 @@ namespace web_api_dotnet6.Controllers
         public string p1 { get; set; }
     }
 
+    [Route("api/[controller]")]
+    [ApiController, Authorize]
 
-    [ApiController]
-    [Route("/")]
     public class ExampleController : Controller
     {
         //private readonly ApiContext _apiContext;
@@ -38,6 +43,7 @@ namespace web_api_dotnet6.Controllers
 
         //Ex1
         //Getbooks
+
         [HttpGet("GetEx1")]
         public ActionResult<List<Author>> GetEx1()
         {
@@ -46,24 +52,24 @@ namespace web_api_dotnet6.Controllers
 
         //Ex2.1
         [HttpPost("Postfunction1")]
-        public IActionResult Postfucion1([FromBody] InputData data)
+        public IActionResult Postfunction1([FromBody] InputData data)
         {
             // แยกค่าที่เป็นตัวเลขออกมาเป็นอาร์เรย์
+            var message = "";
             string[] values = data.p1.Split(',');
+                // เลือกค่าที่ซ้ำกัน
+                var duplicates = values.GroupBy(x => x)
+                                       .Where(group => group.Count() > 1)
+                                       .Select(group => group.Key)
+                                       .OrderBy(x => x) // เรียงลำดับค่า
+                                       .Select(x => new { rank = x });
 
-            // เลือกค่าที่ซ้ำกัน
-            var duplicates = values.GroupBy(x => x)
-                                   .Where(group => group.Count() > 1)
-                                   .Select(group => group.Key)
-                                   .OrderBy(x => x) // เรียงลำดับค่า
-                                   .Select(x => new { rank = x }); 
-
-            return Ok(duplicates);
+                return Ok(duplicates);
         }
 
         //Ex2.2
         [HttpPost("Postfunction2")]
-        public IActionResult Postfucion2([FromBody] InputData data)
+        public IActionResult Postfunction2([FromBody] InputData data)
         {
             // แยกข้อมูลเป็นอาร์เรย์ของตัวเลขและอักขระ
             var numbers = data.p1.Split(',').Where(x => char.IsDigit(x[0]));
@@ -82,7 +88,6 @@ namespace web_api_dotnet6.Controllers
         }
 
         //Ex3
-
         [HttpGet("GetFreeAPI")]
         public async Task<IActionResult> GetEx3(string name)
         {
