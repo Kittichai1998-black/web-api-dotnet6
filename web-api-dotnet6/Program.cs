@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MySqlConnector;
+using System;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using web_api_dotnet6;
+using web_api_dotnet6.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,9 +31,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
  });
 
 // Add services to the container.
-builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+//builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("Default"),
+        new MySqlServerVersion(new Version(8, 0, 36)))
+                //.LogTo(Console.WriteLine, LogLevel.Information)
+                //.EnableSensitiveDataLogging()
+                //.EnableDetailedErrors()
+                );
+
+//builder.Services.AddMySqlDataSource(builder.Configuration.GetConnectionString("Default")!);
+
+
+//builder.Services.AddTransient<MySqlConnection>(_ =>
+//    new MySqlConnection(builder.Configuration.GetConnectionString("Default")));
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

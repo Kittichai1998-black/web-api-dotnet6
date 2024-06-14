@@ -120,7 +120,5 @@ namespace web_api_dotnet6.Controllers
             }
         }
 
-
-
     }   
 }
